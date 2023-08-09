@@ -28,12 +28,12 @@ public class ProviderBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
         //如果是服务提供类则创建代理对象
         if (bean.getClass().isAnnotationPresent(Provider.class)){
-//            Provider provider = bean.getClass().getAnnotation(Provider.class);
-//            int port = provider.port();
+            Provider provider = bean.getClass().getAnnotation(Provider.class);
+            int port = provider.port();
 
 //            providerStart(port,bean);
-            //替换成代理对象
-            providerStart(bean);
+            //TODO 替换成代理对象
+            providerStart(port,bean);
         }
 
         return bean;
@@ -52,7 +52,7 @@ public class ProviderBeanPostProcessor implements BeanPostProcessor {
 //        });
 //    }
 
-    public void providerStart(/*int port,*/Object bean){
+    public void providerStart(int port,Object bean){
         //创建两个线程组bossGroup和workerGroup, 含有的子线程NioEventLoop的个数默认为cpu核数的两倍
         // bossGroup只是处理连接请求 ,真正的和客户端业务处理，会交给workerGroup完成
         EventLoopGroup bossGroup = new NioEventLoopGroup();//默认初始化一个线程
@@ -74,7 +74,7 @@ public class ProviderBeanPostProcessor implements BeanPostProcessor {
                         }
                     });
             System.out.println("服务端启动...");
-            ChannelFuture cf = bootstrap.bind(9000).sync();//启动服务器
+            ChannelFuture cf = bootstrap.bind(port).sync();//启动服务器
             cf.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
