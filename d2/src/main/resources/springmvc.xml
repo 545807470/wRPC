@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop.xsd
+                http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--扫描controller层-->
+    <context:component-scan base-package="com.wyq.rpc.controller"/>
+    <!--开启注解驱动-->
+    <mvc:annotation-driven/>
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+    <!--文件上传解析器-->
+    <!--id必须为multipartResolver-->
+<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+<!--        &lt;!&ndash;文件最大&ndash;&gt;-->
+<!--        <property name="maxUploadSize" value="5242880"/>-->
+<!--    </bean>-->
+<!--    &lt;!&ndash;配置swagger&ndash;&gt;-->
+<!--    <bean class="com.furong.patient.swagger.SwaggerConfig"/>-->
+<!--    &lt;!&ndash;放行swagger静态资源&ndash;&gt;-->
+<!--    <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>-->
+<!--    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>-->
+
+<!--    &lt;!&ndash;配置异常处理器&ndash;&gt;-->
+<!--    <bean class="com.furong.exception.CustomerExceptionResolver"/>-->
+    <!--开启aop注解驱动-->
+    <aop:aspectj-autoproxy/>
+
+    <bean class="com.wyq.rpc.rpc.ConsumerBeanFactoryPostProcessor"/>
+
+</beans>
